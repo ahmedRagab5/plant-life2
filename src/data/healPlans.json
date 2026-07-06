@@ -1,0 +1,591 @@
+ [
+  {
+    "disease": "Bacterial_spot",
+    "disease_display": "Bacterial Spot",
+    "plan": [
+      {
+        "day": 1,
+        "tasks": [
+          {
+            "category": "manual",
+            "title": "إزالة الأوراق المصابة",
+            "description": "قص جميع الأوراق المصابة والتخلص منها بعيدًا عن المزرعة لتجنب انتشار البكتيريا.",
+            "materials": ["مقص تقليم معقم", "أكياس بلاستيكية"]
+          },
+          {
+            "category": "sanitation",
+            "title": "تعقيم الأدوات",
+            "description": "تأكد من تعقيم جميع الأدوات المستخدمة قبل وبعد الاستخدام لمنع انتقال العدوى.",
+            "materials": ["كحول طبي", "قفازات"]
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "الرش بمبيد نحاسي",
+            "description": "استخدم مبيدًا نحاسيًا (مثل هيدروكسيد النحاس) وفقًا لتعليمات العبوة.",
+            "materials": ["مبيد نحاسي", "بخاخ زراعي", "معدات حماية"]
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "tasks": [
+          {
+            "category": "observation",
+            "title": "فحص وتقييم",
+            "description": "بعد مرور أسبوع، تحقق من توقف انتشار البقع الجديدة على الأوراق الحديثة."
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "إعادة الرش (وقائي)",
+            "description": "كرر الرش بالمبيد النحاسي إذا استمرت الإصابة أو كإجراء وقائي.",
+            "materials": ["مبيد نحاسي", "بخاخ زراعي"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "Early_blight",
+    "disease_display": "Early Blight",
+    "plan": [
+      {
+        "day": 1,
+        "tasks": [
+          {
+            "category": "manual",
+            "title": "إزالة الأوراق المصابة",
+            "description": "تخلص من الأوراق السفلية التي تظهر عليها أعراض المرض (بقع دائرية ذات حلقات).",
+            "materials": ["مقص تقليم معقم", "أكياس بلاستيكية"]
+          },
+          {
+            "category": "environmental",
+            "title": "تقليل الرطوبة",
+            "description": "تجنب الري الرذاذي والحرص على ري النباتات من الأسفل لتقليل رطوبة الأوراق."
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "الرش بمبيد فطري",
+            "description": "استخدم مبيدًا جهازيًا أو وقائيًا مناسبًا لللفحة المبكرة.",
+            "materials": ["مبيد فطري", "بخاخ زراعي", "معدات حماية"]
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "tasks": [
+          {
+            "category": "observation",
+            "title": "فحص الأوراق الجديدة",
+            "description": "تأكد من عدم انتقال الإصابة إلى الأجزاء العلوية من النبات."
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "إعادة الرش",
+            "description": "كرر الرش بالمبيد الفطري لضمان القضاء على الفطر.",
+            "materials": ["مبيد فطري", "بخاخ زراعي"]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "Late_blight",
+    "disease_display": "Late Blight",
+    "plan": [
+      {
+        "day": 1,
+        "tasks": [
+          {
+            "category": "manual",
+            "title": "إزالة الأجزاء المصابة",
+            "description": "أزل جميع الأوراق والثمار المصابة فورًا لمنع الانتشار السريع.",
+            "materials": ["مقص تقليم", "أكياس محكمة الغلق"]
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "الرش بمبيد فطري متخصص",
+            "description": "رش مبيدًا جهازيًا مخصصًا لللفحة المتأخرة، وتأكد من تغطية النبات بالكامل.",
+            "materials": ["مبيد فطري جهازي", "بخاخ زراعي", "معدات حماية"]
+},
+          {
+            "category": "observation",
+            "title": "مراقبة الطقس",
+            "description": "متابعة توقعات الطقس وتجنب الري في الأيام الرطبة والباردة التي تزيد من نشاط الفطر."
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "tasks": [
+          {
+            "category": "observation",
+            "title": "فحص النباتات المجاورة",
+            "description": "راجع النباتات القريبة للتأكد من عدم انتقال المرض، حيث ينتشر بسرعة عالية."
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "إعادة الرش",
+            "description": "كرر الرش بعد أسبوع حسب شدة الإصابة.",
+            "materials": ["مبيد فطري", "بخاخ زراعي"]
+          }
+        ]
+      },
+      {
+        "day": 5,
+        "tasks": [
+          {
+            "category": "observation",
+            "title": "تقييم الحالة الشامل",
+            "description": "قيّم مدى تحسن النبات واستمرار نموه بشكل صحي."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "Leaf_Mold",
+    "disease_display": "Leaf Mold",
+    "plan": [
+      {
+        "day": 1,
+        "tasks": [
+          {
+            "category": "environmental",
+            "title": "تحسين التهوية",
+            "description": "قلل الرطوبة حول النبات وتقليم بعض الأوراق السفلية لتحسين تدفق الهواء.",
+            "materials": ["مقص تقليم"]
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "tasks": [
+          {
+            "category": "manual",
+            "title": "إزالة الأوراق المصابة",
+            "description": "تخلص من الأوراق التي تظهر عليها بقع صفراء أو عفن مخملي من الأسفل.",
+            "materials": ["أكياس بلاستيكية"]
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "الرش بمبيد فطري",
+            "description": "استخدم مبيدًا فطريًا مناسبًا لعفن الأوراق.",
+            "materials": ["مبيد فطري", "بخاخ"]
+          },
+          {
+            "category": "nutrition",
+            "title": "دعم صحة النبات",
+            "description": "استخدام سماد غني بالكالسيوم لتقوية جدران الخلايا النباتية وزيادة مقاومتها.",
+            "materials": ["سماد كالسيوم"]
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "إعادة الرش",
+            "description": "كرر استخدام المبيد الفطري إذا استمرت الرطوبة العالية."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "Septoria_leaf_spot",
+    "disease_display": "Septoria Leaf Spot",
+    "plan": [
+      {
+        "day": 1,
+        "tasks": [
+          {
+            "category": "manual",
+            "title": "إزالة الأوراق المصابة",
+            "description": "تخلص من الأوراق السفلية المصابة ببقع صغيرة داكنة المركز.",
+            "materials": ["مقص تقليم معقم"]
+          },
+          {
+            "category": "environmental",
+            "title": "تغطية التربة",
+            "description": "وضع طبقة من المهاد (الملش) حول قاعدة النبات لمنع تناثر أبواغ الفطر من التربة إلى الأوراق.",
+            "materials": ["مهاد (قش أو بلاستيك الزراعة)"]
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "الرش بمبيد فطري",
+            "description": "رش مبيدًا فطريًا مناسبًا (مثل النحاس أو الكلوروثالونيل).",
+            "materials": ["مبيد فطري", "بخاخ"]
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "tasks": [
+          {
+            "category": "observation",
+            "title": "متابعة الإصابة",
+            "description": "افحص النبات بالكامل وتأكد من عدم صعود الإصابة للأعلى."
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "tasks": [ {
+            "category": "chemical",
+            "title": "إعادة الرش",
+            "description": "كرر الرش لحماية الأوراق السليمة."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "Spider_mites_Two_spotted_spider_mite",
+    "disease_display": "Spider Mites",
+    "plan": [
+      {
+        "day": 1,
+        "tasks": [
+          {
+            "category": "manual",
+            "title": "غسل الأوراق",
+            "description": "اغسل الأوراق بتيار ماء قوي لإزالة جزء كبير من العناكب وشباكها.",
+            "materials": ["خرطوم مياه"]
+          },
+          {
+            "category": "environmental",
+            "title": "زيادة الرطوبة",
+            "description": "العناكب تكره الرطوبة العالية، لذا يفضل رش رذاذ خفيف من الماء حول النباتات لرفع الرطوبة النسبية."
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "الرش بمبيد أكاروسي",
+            "description": "استخدم مبيدًا مخصصًا للعناكب (أكاروسي)، وتأكد من رش السطح السفلي للأوراق.",
+            "materials": ["مبيد أكاروسي", "بخاخ"]
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "tasks": [
+          {
+            "category": "observation",
+            "title": "فحص أسفل الأوراق",
+            "description": "تحقق من وجود العناكب الحية باستخدام عدسة مكبرة إذا أمكن."
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "إعادة الرش",
+            "description": "كرر الرش لأن المبيد قد لا يقضي على البيض الذي يفقس لاحقًا."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "Target_Spot",
+    "disease_display": "Target Spot",
+    "plan": [
+      {
+        "day": 1,
+        "tasks": [
+          {
+            "category": "manual",
+            "title": "إزالة الأوراق المصابة",
+            "description": "تخلص من الأوراق المصابة لتقليل مصدر العدوى.",
+            "materials": ["مقص تقليم"]
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "الرش بمبيد فطري",
+            "description": "رش مبيدًا فطريًا واسع المجال.",
+            "materials": ["مبيد فطري", "بخاخ"]
+          },
+          {
+            "category": "manual",
+            "title": "تقليم للتهوية",
+            "description": "إزالة الأفرع المتشابكة للسماح بوصول أشعة الشمس والمبيد إلى عمق النبات.",
+            "materials": ["مقص تقليم"]
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "إعادة الرش",
+            "description": "كرر الرش بعد أسبوع إلى 10 أيام وقايةً للنموات الجديدة."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "Tomato_mosaic_virus",
+    "disease_display": "Tomato Mosaic Virus",
+    "plan": [
+      {
+        "day": 1,
+        "tasks": [
+          {
+            "category": "manual",
+            "title": "عزل النبات",
+            "description": "اعزل النبات المصاب أو تخلص منه تمامًا إذا كانت الإصابة شديدة، فلا يوجد علاج للفيروس.",
+            "materials": ["أكياس كبيرة"]
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "tasks": [
+          {
+            "category": "sanitation",
+            "title": "تعقيم الأدوات",
+            "description": "طهر جميع أدوات التقليم واغسل يديك جيدًا لمنع نقل الفيروس لنباتات أخرى.",
+            "materials": ["مادة معقمة (كحول أو كلور)"]
+          },
+          {
+            "category": "sanitation",
+            "title": "غسل اليدين والملابس",
+            "description": "تأكد من غسل اليدين جيداً بالماء والصابون وتغيير الملابس إذا لامست النباتات المصابة قبل التعامل مع السليمة."
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "tasks": [{
+            "category": "observation",
+            "title": "متابعة النباتات المجاورة",
+            "description": "راقب ظهور أعراض جديدة (تبقش أو تشوه الأوراق) على النباتات المجاورة."
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "tasks": [
+          {
+            "category": "manual",
+            "title": "إزالة الأعشاب الضارة",
+            "description": "أزل الأعشاب الضارة المحيطة لأنها قد تكون عائلًا للفيروس."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "Tomato_Yellow_Leaf_Curl_Virus",
+    "disease_display": "Tomato Yellow Leaf Curl Virus",
+    "plan": [
+      {
+        "day": 1,
+        "tasks": [
+          {
+            "category": "manual",
+            "title": "تركيب مصائد صفراء",
+            "description": "ضع مصائد لاصقة صفراء حول النباتات لاصطياد الذبابة البيضاء الناقلة للفيروس.",
+            "materials": ["مصائد لاصقة صفراء"]
+          },
+          {
+            "category": "manual",
+            "title": "إزالة النباتات العائلة",
+            "description": "إزالة أي نباتات برية أو حشائش حول الحقل قد تشكل مأوى للذبابة البيضاء."
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "مكافحة الذبابة البيضاء",
+            "description": "رش مبيد حشري مخصص للذبابة البيضاء لتقليل أعدادها.",
+            "materials": ["مبيد حشري", "بخاخ"]
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "tasks": [
+          {
+            "category": "observation",
+            "title": "فحص الحشرات",
+            "description": "تحقق من انخفاض أعداد الذبابة البيضاء على المصائد وأسفل الأوراق."
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "إعادة المكافحة",
+            "description": "كرر المكافحة الحشرية للحفاظ على انخفاض أعداد الناقل، وتخلص من النباتات شديدة الإصابة."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "Powdery_Mildew",
+    "disease_display": "Powdery Mildew",
+    "plan": [
+      {
+        "day": 1,
+        "tasks": [
+          {
+            "category": "manual",
+            "title": "إزالة الأوراق المصابة",
+            "description": "تخلص من الأوراق المغطاة بمسحوق أبيض.",
+            "materials": ["مقص تقليم"]
+          },
+          {
+            "category": "environmental",
+            "title": "تحسين تعرض النبات للشمس",
+            "description": "تأكد من أن النباتات تتلقى كمية كافية من ضوء الشمس المباشر لتقليل الرطوبة حول الأوراق."
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "الرش بمبيد مناسب",
+            "description": "استخدم مبيدًا للبياض الدقيقي (مثل الكبريت الميكروني).",
+            "materials": ["مبيد كبريتي", "بخاخ"]
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "tasks": [
+          {
+            "category": "observation",
+            "title": "فحص الإصابة",
+            "description": "تحقق من توقف نمو الفطر الأبيض وتحسن النبات."
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "tasks": [
+          {
+            "category": "chemical",
+            "title": "إعادة الرش",
+            "description": "كرر الرش إذا استمرت الظروف الدافئة والجافة التي تشجع المرض."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "disease": "Healthy",
+    "disease_display": "Healthy",
+    "plan": [
+      {
+        "day": 1,
+        "tasks": [
+          {
+            "category": "observation",
+            "title": "فحص دوري",
+            "description": "افحص الأوراق من الأعلى والأسفل، وتأكد من سلامة الساق والثمار."
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "tasks": [
+          {
+            "category": "manual",
+            "title": "إزالة الحشائش",
+ "description": "نظف المنطقة المحيطة بالنبات لتقليل التنافس على الغذاء وتقليل فرص الآفات.",
+            "materials": ["أدوات تعشيب"]
+          },
+          {
+            "category": "nutrition",
+            "title": "ري منتظم",
+            "description": "توفير ري منتظم ومتوازن دون الإفراط في المياه للحفاظ على قوة الجذور."
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "tasks": [
+          {
+            "category": "nutrition",
+            "title": "تسميد وقائي",
+            "description": "أضف سمادًا متوازنًا لدعم قوة النبات ومناعته.",
+            "materials": ["سماد متوازن (NPK)"]
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "tasks": [
+          {
+            "category": "observation",
+            "title": "فحص شامل",
+            "description": "تأكد من استمرار خلو النبات من أي أعراض مرضية أو حشرات."
+          }
+        ]
+      }
+    ]
+  }
+]
