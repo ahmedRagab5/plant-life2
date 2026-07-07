@@ -61,16 +61,31 @@ const processSensorData = async ({
   const notifications = [];
   const alerts = [];
 
-  // 3 ── Save SensorReading only when status CHANGES from the last saved one ─
+  // 3 ── Save SensorReading only when the status of any individual sensor changes ─
   const lastReading = await SensorReading.findOne({ deviceId })
     .sort({ createdAt: -1 })
-    .select('overallStatus')
+    .select('evaluations')
     .lean();
 
-  const lastStatus = lastReading ? lastReading.overallStatus : null;
-  const statusChanged = lastStatus !== overallStatus;
+  let stateChanged = false;
+  const sensorTypes = ['temperature', 'humidity', 'soilMoisture', 'lightIntensity'];
 
-  if (statusChanged) {
+  if (!lastReading) {
+    stateChanged = true;
+  } else {
+    for (const sensorType of sensorTypes) {
+      const lastSensorStatus = lastReading.evaluations?.[sensorType]?.status;
+      const currentSensorStatus = evaluations[sensorType].status;
+      if (lastSensorStatus !== currentSensorStatus) {
+        stateChanged = true;
+        break;
+      }
+    }
+  }
+
+  const statusChanged = stateChanged;
+
+  if (stateChanged) {
     reading = await SensorReading.create({
       deviceId,
       userId,
@@ -83,9 +98,24 @@ const processSensorData = async ({
       timestamp: timestamp || new Date(),
     });
     savedToDB = true;
+
+    // Keep only the latest 20 readings for this user
+    const totalReadingsCount = await SensorReading.countDocuments({ userId });
+    if (totalReadingsCount > 20) {
+      const deleteCount = totalReadingsCount - 20;
+      const oldestReadings = await SensorReading.find({ userId })
+        .sort({ createdAt: 1 })
+        .limit(deleteCount)
+        .select('_id')
+        .lean();
+      
+      const oldestIds = oldestReadings.map(r => r._id);
+      await SensorReading.deleteMany({ _id: { $in: oldestIds } });
+    }
   } else {
     // Build a local object for API response & Socket.IO (not persisted)
     reading = {
+      _id: lastReading ? lastReading._id : null,
       deviceId,
       userId,
       temperature,
@@ -99,91 +129,72 @@ const processSensorData = async ({
     };
   }
 
-  // 4 ── Handle notifications for Warning & Danger (only on status transition) ─
-  //      Save SensorNotification for both; FCM push only for danger.
-  if (statusChanged && (overallStatus === 'warning' || overallStatus === 'danger')) {
-    const sensorTypes = ['temperature', 'humidity', 'soilMoisture', 'lightIntensity'];
+  // 4 ── Handle notifications (on state transition for each sensor) ───────────
+  for (const sensorType of sensorTypes) {
+    const evaluation = evaluations[sensorType];
+    const currentStatus = evaluation.status; // 'normal', 'warning', 'danger'
 
-    for (const sensorType of sensorTypes) {
-      const evaluation = evaluations[sensorType];
+    const lastNotif = await SensorNotification.findOne({
+      deviceId,
+      sensorType,
+    })
+      .sort({ createdAt: -1 })
+      .select('status')
+      .lean();
 
-      // Save notification for warning or danger sensors
-      if (evaluation.status === 'warning' || evaluation.status === 'danger') {
-        const notifData = {
-          userId,
-          deviceId,
-          readingId: reading._id || null,
-          sensorType,
-          currentValue: rawReading[sensorType],
-          status: evaluation.status,
+    const lastNotifStatus = lastNotif ? lastNotif.status : null;
+
+    // Only save notification if the state changed compared to the last saved notification
+    if (lastNotifStatus !== currentStatus) {
+      const notifData = {
+        userId,
+        deviceId,
+        readingId: reading._id || null,
+        sensorType,
+        currentValue: rawReading[sensorType],
+        status: currentStatus,
+        title: evaluation.title,
+        message: evaluation.message,
+        recommendation: evaluation.recommendation,
+        timestamp: reading.timestamp,
+        pushSent: false,
+      };
+
+      // Only send push notification to user (FCM) if status is danger
+      if (currentStatus === 'danger') {
+        const pushSent = await sendSensorAlertPush(fcmToken, {
           title: evaluation.title,
           message: evaluation.message,
-          recommendation: evaluation.recommendation,
-          timestamp: reading.timestamp,
-          pushSent: false,
-        };
+          sensorType,
+          currentValue: rawReading[sensorType],
+          status: 'danger',
+          deviceId,
+        });
 
-        // Only send FCM push for danger-level sensors
-        if (evaluation.status === 'danger') {
-          const pushSent = await sendSensorAlertPush(fcmToken, {
-            title: evaluation.title,
-            message: evaluation.message,
+        if (pushSent) {
+          notifData.pushSent = true;
+          alerts.push({
             sensorType,
-            currentValue: rawReading[sensorType],
             status: 'danger',
-            deviceId,
+            pushSent,
+            fcmTokenPresent: !!fcmToken,
           });
-
-          if (pushSent) {
-            notifData.pushSent = true;
-            alerts.push({
-              sensorType,
-              status: 'danger',
-              pushSent,
-              fcmTokenPresent: !!fcmToken,
-            });
-          }
         }
-
-        const notification = await SensorNotification.create(notifData);
-        notifications.push(notification);
       }
+
+      // Save notification to DB
+      const notification = await SensorNotification.create(notifData);
+      notifications.push(notification);
     }
-  } else if (statusChanged && overallStatus === 'normal') {
-    // 5 ── Problem Solved Check: transition from danger to normal ─────────────
-    const unresolvedDangerAlerts = await SensorNotification.find({
-      deviceId,
-      status: 'danger',
-      isRead: false,
-    });
+  }
 
-    if (unresolvedDangerAlerts.length > 0) {
-      // Mark all previous danger notifications as read
-      await SensorNotification.updateMany(
-        { deviceId, status: 'danger', isRead: false },
-        { isRead: true }
-      );
-
-      const resolvedTitle = '✅ تم حل المشكلة — الحالة طبيعية';
-      const resolvedMsg = 'عادت جميع قراءات أجهزة الاستشعار إلى المعدلات الطبيعية الآمنة.';
-
-      // Send the FCM push directly without saving a resolved notification in the DB
-      const pushSent = await sendSensorAlertPush(fcmToken, {
-        title: resolvedTitle,
-        message: resolvedMsg,
-        sensorType: unresolvedDangerAlerts[0].sensorType,
-        currentValue: rawReading[unresolvedDangerAlerts[0].sensorType],
-        status: 'normal',
-        deviceId,
-      });
-
-      alerts.push({
-        sensorType: unresolvedDangerAlerts[0].sensorType,
-        status: 'normal',
-        pushSent,
-        fcmTokenPresent: !!fcmToken,
-      });
-    }
+  // 5 ── Silently resolve active danger notifications when no danger is present ──
+  const activeDangerSensors = sensorTypes.filter(st => evaluations[st].status === 'danger');
+  if (activeDangerSensors.length === 0) {
+    await SensorNotification.updateMany(
+      { deviceId, status: 'danger', isRead: false },
+      { isRead: true }
+    );
   }
 
   return { reading, notifications, alerts, savedToDB, statusChanged };
