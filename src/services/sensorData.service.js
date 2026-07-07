@@ -57,11 +57,20 @@ const processSensorData = async ({
   const { evaluations, overallStatus } = evaluateAllSensors(rawReading, SENSOR_THRESHOLDS);
 
   let reading;
+  let savedToDB = false;
   const notifications = [];
   const alerts = [];
 
-  // 3 ── Save SensorReading only for Warning or Danger ──────────────────────
-  if (overallStatus !== 'normal') {
+  // 3 ── Save SensorReading only when status CHANGES from the last saved one ─
+  const lastReading = await SensorReading.findOne({ deviceId })
+    .sort({ createdAt: -1 })
+    .select('overallStatus')
+    .lean();
+
+  const lastStatus = lastReading ? lastReading.overallStatus : null;
+  const statusChanged = lastStatus !== overallStatus;
+
+  if (statusChanged) {
     reading = await SensorReading.create({
       deviceId,
       userId,
@@ -73,8 +82,9 @@ const processSensorData = async ({
       overallStatus,
       timestamp: timestamp || new Date(),
     });
+    savedToDB = true;
   } else {
-    // For normal status, do not save to DB, create a mock local object for response compatibility
+    // Build a local object for API response & Socket.IO (not persisted)
     reading = {
       deviceId,
       userId,
@@ -89,9 +99,9 @@ const processSensorData = async ({
     };
   }
 
-  // 4 ── Handle notifications for Warning & Danger ────────────────────────────
+  // 4 ── Handle notifications for Warning & Danger (only on status transition) ─
   //      Save SensorNotification for both; FCM push only for danger.
-  if (overallStatus === 'warning' || overallStatus === 'danger') {
+  if (statusChanged && (overallStatus === 'warning' || overallStatus === 'danger')) {
     const sensorTypes = ['temperature', 'humidity', 'soilMoisture', 'lightIntensity'];
 
     for (const sensorType of sensorTypes) {
@@ -139,7 +149,7 @@ const processSensorData = async ({
         notifications.push(notification);
       }
     }
-  } else if (overallStatus === 'normal') {
+  } else if (statusChanged && overallStatus === 'normal') {
     // 5 ── Problem Solved Check: transition from danger to normal ─────────────
     const unresolvedDangerAlerts = await SensorNotification.find({
       deviceId,
@@ -176,7 +186,7 @@ const processSensorData = async ({
     }
   }
 
-  return { reading, notifications, alerts };
+  return { reading, notifications, alerts, savedToDB, statusChanged };
 };
 
 /**

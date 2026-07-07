@@ -42,6 +42,22 @@ const registerHandlers = (io, socket) => {
   });
 
   /**
+   * Join a device room to receive real-time sensor readings.
+   * Payload: { deviceId: string }
+   */
+  socket.on('join_device', ({ deviceId }) => {
+    socket.join(`device:${deviceId}`);
+  });
+
+  /**
+   * Leave a device room.
+   * Payload: { deviceId: string }
+   */
+  socket.on('leave_device', ({ deviceId }) => {
+    socket.leave(`device:${deviceId}`);
+  });
+
+  /**
    * Ping-pong for connection health check.
    */
   socket.on('ping_server', () => {

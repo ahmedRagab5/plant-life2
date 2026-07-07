@@ -23,7 +23,7 @@ const processSensorData = asyncHandler(async (req, res) => {
     timestamp,
   });
 
-  const { reading, notifications, alerts } = result;
+  const { reading, notifications, alerts, savedToDB, statusChanged } = result;
 
   let message = 'تم استلام بيانات المستشعر ومعالجتها بنجاح.';
   if (reading.overallStatus === 'warning') {
@@ -32,19 +32,21 @@ const processSensorData = asyncHandler(async (req, res) => {
     message = 'تم استلام البيانات. تم اكتشاف قيم حرجة — يجب اتخاذ إجراء فوري!';
   }
 
+  const readingPayload = {
+    _id: reading._id || null,
+    deviceId: reading.deviceId,
+    temperature: reading.temperature,
+    humidity: reading.humidity,
+    soilMoisture: reading.soilMoisture,
+    lightIntensity: reading.lightIntensity,
+    evaluations: reading.evaluations,
+    overallStatus: reading.overallStatus,
+    timestamp: reading.timestamp,
+    createdAt: reading.createdAt,
+  };
+
   const responseData = {
-    reading: {
-      _id: reading._id,
-      deviceId: reading.deviceId,
-      temperature: reading.temperature,
-      humidity: reading.humidity,
-      soilMoisture: reading.soilMoisture,
-      lightIntensity: reading.lightIntensity,
-      evaluations: reading.evaluations,
-      overallStatus: reading.overallStatus,
-      timestamp: reading.timestamp,
-      createdAt: reading.createdAt,
-    },
+    reading: readingPayload,
     notifications: notifications.map((n) => ({
       _id: n._id,
       sensorType: n.sensorType,
@@ -57,10 +59,18 @@ const processSensorData = asyncHandler(async (req, res) => {
       isRead: n.isRead,
       timestamp: n.timestamp,
     })),
+    savedToDB,
+    statusChanged,
   };
 
   if (process.env.NODE_ENV === 'development' && alerts.length > 0) {
     responseData.fcmAlerts = alerts;
+  }
+
+  // ── Emit real-time sensor data via Socket.IO (ALWAYS, even if not saved) ──
+  const io = req.app.get('io');
+  if (io) {
+    io.to(`device:${deviceId}`).emit('sensor_reading', readingPayload);
   }
 
   return res.status(StatusCodes.CREATED).json({
